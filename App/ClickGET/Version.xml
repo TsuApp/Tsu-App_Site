@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
     <version>3.0.0</version>
-    <url>https://github.com/TsuApp/Tsu-App_Site/releases/download/ClickGET-latest/ClickGET_Setup.exe</url>
+    <url>https://github.com/TsuApp/Tsu-App_Site/releases/download/ClickGET-latest/ClickGET_Setup.exe</url>    
     <mandatory>true</mandatory>
+    <args>/SILENT /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /NORESTART</args>
 </item>
