@@ -3,4 +3,5 @@
     <version>3.0.3</version>
     <url>https://github.com/TsuApp/Tsu-App_Site/releases/download/GemboApp-latest/GemboApp_Setup.exe</url>
     <mandatory>true</mandatory>
+    <args>/SILENT /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /NORESTART</args>
 </item>
