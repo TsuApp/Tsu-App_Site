@@ -1,58 +1,116 @@
-// apps.js : 各アプリのバージョン情報を自動取得して表示する
+// app.js : GitHub Releases と Version.xml から各アプリ情報を取得する
 
-document.addEventListener("DOMContentLoaded", () => {
+const GITHUB_OWNER = "TsuApp";
+const GITHUB_REPO = "Tsu-App_Site";
 
-    // すべての grid-item を走査
-    document.querySelectorAll(".grid-item[data-app]").forEach(app => {
+document.addEventListener("DOMContentLoaded", async () => {
 
-        const name = app.dataset.app;         // TouchApp / GemboApp / etc
-        const baseUrl = `https://Tsu-App.com/App/${name}/`;
+    try {
+        // GitHub Releases一覧を1回だけ取得
+        const releasesUrl =
+            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases?per_page=100`;
 
-        const exeUrl = `${baseUrl}${name}_Setup.exe`;
-        const xmlUrl = `${baseUrl}Version.xml`;
+        const response = await fetch(releasesUrl);
 
-        const versionEl = app.querySelector(".version");
-        const dateEl    = app.querySelector(".lastModified");
-        const sizeEl    = app.querySelector(".fileSize");
+        if (!response.ok) {
+            throw new Error("GitHub Releases の取得に失敗しました");
+        }
 
-        loadVersionInfo(exeUrl, xmlUrl, versionEl, dateEl, sizeEl);
-    });
+        const releases = await response.json();
+
+        // 各アプリカードを処理
+        document.querySelectorAll(".grid-item[data-app]").forEach(app => {
+            loadAppInfo(app, releases);
+        });
+
+    } catch (err) {
+        console.error("GitHub Releases取得エラー:", err);
+    }
 });
 
 
 //----------------------------------------------------------
-// 1アプリ分の情報を読み取って HTML に反映する
+// 1アプリ分の情報を取得して表示
 //----------------------------------------------------------
-async function loadVersionInfo(exeUrl, xmlUrl, versionEl, dateEl, sizeEl) {
+async function loadAppInfo(app, releases) {
+
+    const name = app.dataset.app;
+
+    const versionEl = app.querySelector(".version");
+    const dateEl    = app.querySelector(".lastModified");
+    const sizeEl    = app.querySelector(".fileSize");
+
     try {
-        // EXE の HTTP Header（最終更新日・サイズ）
-        const head = await fetch(exeUrl, { method: "HEAD" });
-        if (!head.ok) throw new Error("HEAD 取得失敗");
+        //--------------------------------------------------
+        // Version.xml からバージョン取得
+        //--------------------------------------------------
+        const xmlUrl = `${name}/Version.xml?t=${Date.now()}`;
 
-        const lastModified = head.headers.get("Last-Modified");
-        const contentLength = head.headers.get("Content-Length");
+        const xmlResponse = await fetch(xmlUrl);
 
-        // Version.xml の読み込み（キャッシュ対策で ?t=NOW）
-        const xmlText = await fetch(`${xmlUrl}?t=${Date.now()}`).then(r => r.text());
-        const xml = new DOMParser().parseFromString(xmlText, "application/xml");
-        const version = xml.querySelector("version")?.textContent ?? "不明";
+        if (!xmlResponse.ok) {
+            throw new Error(`${name}: Version.xml取得失敗`);
+        }
 
-        // HTML 表示
+        const xmlText = await xmlResponse.text();
+        const xml = new DOMParser().parseFromString(
+            xmlText,
+            "application/xml"
+        );
+
+        const version =
+            xml.querySelector("version")?.textContent ?? "不明";
+
+        //--------------------------------------------------
+        // GitHub Releaseを探す
+        //--------------------------------------------------
+        const tagName = `${name}-latest`;
+
+        const release = releases.find(
+            r => r.tag_name === tagName
+        );
+
+        if (!release) {
+            throw new Error(`${name}: Releaseがありません`);
+        }
+
+        //--------------------------------------------------
+        // Setup.exeを探す
+        //--------------------------------------------------
+        const setupName = `${name}_Setup.exe`;
+
+        const asset = release.assets.find(
+            a => a.name === setupName
+        );
+
+        if (!asset) {
+            throw new Error(`${name}: ${setupName} がありません`);
+        }
+
+        //--------------------------------------------------
+        // 表示
+        //--------------------------------------------------
         versionEl.textContent = version;
 
-        dateEl.textContent = lastModified
-            ? new Date(lastModified).toLocaleDateString("ja-JP")
-            : "不明";
+        dateEl.textContent =
+            new Date(asset.updated_at).toLocaleDateString("ja-JP");
 
-        sizeEl.textContent = contentLength
-            ? `${(contentLength / 1024 / 1024).toFixed(2)} MB`
-            : "不明";
+        sizeEl.textContent =
+            `${(asset.size / 1024 / 1024).toFixed(2)} MB`;
+
+        //--------------------------------------------------
+        // ダウンロードリンクもGitHub Releasesへ自動設定
+        //--------------------------------------------------
+        app.querySelectorAll('a[href*="_Setup.exe"]').forEach(link => {
+            link.href = asset.browser_download_url;
+        });
 
     } catch (err) {
+
         if (versionEl) versionEl.textContent = "取得エラー";
         if (dateEl)    dateEl.textContent    = "取得エラー";
         if (sizeEl)    sizeEl.textContent    = "取得エラー";
 
-        console.error("バージョン情報取得エラー:", err);
+        console.error(err);
     }
 }
