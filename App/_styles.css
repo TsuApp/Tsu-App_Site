@@ -1,0 +1,290 @@
+/* ================================
+   全体
+================================ */
+body {
+    font-family: "Yu Gothic UI", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff7f9; /* ほんのりピンクの背景 */
+}
+
+/* ================================
+   グリッドレイアウト
+================================ */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ================================
+   カード（アプリ）
+================================ */
+.grid-item {
+    background: #fceff1; /* 優しい淡ピンク */
+    color: #333;
+    padding: 24px;
+    border-radius: 14px;
+
+    /* 柔らかい影 */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.25s ease;
+}
+
+.grid-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* ================================
+   アプリアイコン
+================================ */
+.grid-item img {
+    width: 90px;
+    margin-bottom: 15px;
+}
+
+/* ================================
+   タイトル
+================================ */
+.grid-item .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+.grid-item .title a {
+    color: #d94886; /* 落ち着いたピンク */
+    text-decoration: none;
+}
+
+.grid-item .title a:hover {
+    text-decoration: underline;
+}
+
+/* ================================
+   アプリ説明（短い紹介文）
+================================ */
+.grid-item .description {
+    font-size: 14px;
+    color: #555;
+    margin: 8px 0 14px 0;
+    line-height: 1.45;
+    text-align: center;
+}
+
+/* ================================
+   情報行（Version / Update / Size）
+================================ */
+.icon-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 8px;
+    margin: 6px 0;
+    font-size: 14px;
+    color: #444;
+}
+
+.icon-text .material-icons {
+    font-size: 18px;
+    color: #d36da6; /* くすみピンク */
+}
+
+.icon-text span {
+    font-weight: bold;
+}
+
+/* ================================
+   CSVボタン
+================================ */
+.csv-btn {
+    margin-top: 15px;
+    padding: 10px 16px;
+
+    background: #e979a9; /* アクセントピンク */
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.csv-btn:hover {
+    background: #ce538d; /* 少し濃いピンク */
+    transform: translateY(-2px);
+}
+
+/* ================================
+   モーダル（背景）
+================================ */
+#overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.25s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ================================
+   モーダル本体
+================================ */
+#modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 60px 26px 26px 26px;
+
+    max-width: 80vw;
+    max-height: 80vh;
+    overflow: auto;
+
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    animation: popin 0.25s ease forwards;
+    transform-origin: center;
+}
+
+@keyframes popin {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1.0); opacity: 1; }
+}
+
+/* ================================
+   閉じるボタン
+================================ */
+#modalCloseBtn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 24px;
+    color: #c95b8d;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s ease;
+}
+
+#modalCloseBtn:hover {
+    opacity: 0.6;
+    transform: scale(1.1);
+}
+
+/* ================================
+   CSV テーブル
+================================ */
+#csvContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+#csvContainer th {
+    position: sticky;
+    top: 0;
+    background: #e979a9; /* ピンクヘッダ */
+    color: white;
+    padding: 8px;
+    z-index: 1;
+}
+
+/* 行 */
+#csvContainer td {
+    padding: 8px;
+    border-bottom: 1px solid #f1c8d9;
+}
+
+/* ストライプ行（淡ピンク） */
+#csvContainer tr:nth-child(even) {
+    background: #fff4fa;
+}
+
+/* スクロールバー美化 */
+#modal::-webkit-scrollbar {
+    width: 8px;
+}
+#modal::-webkit-scrollbar-track {
+    background: #fbe4ed;
+    border-radius: 10px;
+}
+#modal::-webkit-scrollbar-thumb {
+    background: #e79abd;
+    border-radius: 10px;
+}
+#modal::-webkit-scrollbar-thumb:hover {
+    background: #ce538d;
+}
+
+/* ================================
+   スマホ対応
+================================ */
+@media (max-width: 600px) {
+    .grid-item {
+        padding: 18px;
+    }
+
+    .grid-item img {
+        width: 70px;
+    }
+
+    .grid-item .title {
+        font-size: 18px;
+    }
+
+    .icon-text {
+        font-size: 13px;
+    }
+
+    #modal {
+        padding: 16px;
+        max-width: 95vw;
+        max-height: 85vh;
+    }
+
+ /* ================================
+   画像 Tooltip（カスタム）
+================================ */
+.tooltip-img {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-img .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 110%; /* 画像の上に出す */
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: #e979a9; /* あなたのピンク系 */
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    font-size: 13px;
+    z-index: 10;
+
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.tooltip-img:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}   
+}
