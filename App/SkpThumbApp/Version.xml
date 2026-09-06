@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <url>https://github.com/TsuApp/Tsu-App_Site/releases/download/SkpThumbApp-latest/SkpThumbApp_Setup.exe</url>
     <mandatory>true</mandatory>
     <args>/SILENT /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /NORESTART</args>
