@@ -1,0 +1,5 @@
+Date,Ver.,Comment
+2026/02/24,3.0.0,IJCAD2026までに対応
+2024/07/07,2.5.0,点(Point)を取得対象に追加、DXF読込追加
+2022/12/03,2.0.0,対象変更:AutoCAD→IJCAD
+2019/09/30,1.0.0,Click GET Release!
