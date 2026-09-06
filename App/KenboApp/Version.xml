@@ -3,4 +3,5 @@
     <version>2.0.0.1</version>
     <url>https://github.com/TsuApp/Tsu-App_Site/releases/download/KenboApp-latest/KenboApp_Setup.exe</url>
     <mandatory>true</mandatory>
+    <args>/SILENT /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /NORESTART</args>
 </item>
