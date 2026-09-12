@@ -147,6 +147,7 @@ body {
    モーダル本体
 ================================ */
 #modal {
+    position: relative;
     background: #fff;
     border-radius: 12px;
     padding: 60px 26px 26px 26px;
@@ -177,6 +178,7 @@ body {
     cursor: pointer;
     user-select: none;
     transition: 0.2s ease;
+    z-index: 2;
 }
 
 #modalCloseBtn:hover {
@@ -250,7 +252,7 @@ body {
     }
 
     #modal {
-        padding: 16px;
+        padding: 48px 16px 16px;
         max-width: 95vw;
         max-height: 85vh;
     }
