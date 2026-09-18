@@ -3,5 +3,5 @@
     <version>1.0.1</version>
     <url>https://github.com/TsuApp/Tsu-App_Site/releases/download/BoardApp-latest/BoardApp_Setup.exe</url>
     <mandatory>true</mandatory>
-    <args>/SILENT /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /NORESTART</args>
+    <args>/SILENT /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /NORESTART /LOG /LOGCLOSEAPPLICATIONS</args>
 </item>
