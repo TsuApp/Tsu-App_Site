@@ -3,5 +3,5 @@
     <version>1.0.0</version>
     <url>https://github.com/TsuApp/Tsu-App_Site/releases/download/SurveyApp-latest/SurveyApp_Setup.exe</url>
     <mandatory>true</mandatory>
-    <args>/SILENT /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /NORESTART /LOG /LOGCLOSEAPPLICATIONS</args>
+    <args>/SILENT /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /NORESTART</args>
 </item>
